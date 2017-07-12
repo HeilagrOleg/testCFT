@@ -20,7 +20,9 @@ public class FileSorting {
         int stringCounter = 0;
 
         if (args.length < 4) {
-            System.out.printf("Неверная команда%nНажмите любую клавишу, что бы выйте%n");
+            System.out.printf("Неверная команда%n" +
+                    "(имя входного файла) (имя выходного файла) (содержимое сортировки) (метод сортировки) (кодировка (опционально))%n" +
+                    "Нажмите любую клавишу, что бы выйте%n");
             s.nextLine();
             System.exit(0);
         }
@@ -110,40 +112,42 @@ public class FileSorting {
         try {
             PrintWriter writer = new PrintWriter(argumentsList.get(1));
 
-            if (args[2].equals("i")) {
-                for (Integer e : integersList) {
-                    writer.println(e);
-                }
-                writer.print(System.lineSeparator());
-            } else if (args[2].equals("s")) {
-                for (String e : stringsList) {
-                    if (e.length() > 0) {
+            switch (args[2]) {
+                case "i":
+                    for (Integer e : integersList) {
                         writer.println(e);
                     }
-                }
-            } else if (args[2].equals("full")) {
-                for (Integer e : integersList) {
-                    writer.println(e);
-                }
-
-                writer.print(System.lineSeparator());
-
-                for (String e : stringsList) {
-                    if (e.length() > 0) {
+                    writer.print(System.lineSeparator());
+                    break;
+                case "s":
+                    for (String e : stringsList) {
+                        if (e.length() > 0) {
+                            writer.println(e);
+                        }
+                    }
+                    break;
+                case "full":
+                    for (Integer e : integersList) {
                         writer.println(e);
                     }
-                }
+
+                    if(integersList.size()>0) {
+                        writer.print(System.lineSeparator());
+                    }
+
+                    for (String e : stringsList) {
+                        if (e.length() > 0) {
+                            writer.println(e);
+                        }
+                    }
+                    break;
             }
 
             writer.close();
 
-        }
-        catch (FileNotFoundException write) {
+        } catch (FileNotFoundException write) {
             System.out.println("Не удалось записать в указанный файл");
         }
-
         System.out.printf("Всего обработано строк: %d", stringCounter);
-
-
     }
 }
